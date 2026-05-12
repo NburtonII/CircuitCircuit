@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "cannon-es": "^0.20.0"
+  }
+}

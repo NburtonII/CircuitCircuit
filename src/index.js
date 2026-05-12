@@ -1,0 +1,171 @@
+import * as Three from 'three';
+
+import { Plane } from 'three/src/math/Plane.js';
+import * as CANNON from 'cannon-es'
+import {VRButton} from 'three/addons/webxr/VRButton.js';
+import RaceTrack  from './world.js';
+import Racer from './Racer.js';
+
+window.addEventListener('error', (e) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;padding:20px;font-size:20px;z-index:9999';
+    div.innerText = 'ERROR: ' + e.message + ' at line ' + e.lineno;
+    document.body.appendChild(div);
+});
+
+
+class MainScene{
+
+    constructor(){
+        //Renderer
+        this.renderer = new Three.WebGLRenderer(
+            {
+            antialias:true,
+            alpha:true
+        });
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(window.innerWidth,window.innerHeight);
+        this.renderer.shadowMap.enabled = true;
+        document.body.appendChild(this.renderer.domElement);
+        this.renderer.setClearColor(0x000000);
+
+        this.scene = new Three.Scene();
+
+
+        //Vr Set up
+        const params = new URL(document.location).searchParams;
+        const isVRSupported = true; //params.get('vr') === 'true';
+        if (isVRSupported){
+            this.renderer.xr.enabled = true;
+            document.body.appendChild(VRButton.createButton(this.renderer, {
+                optionalFeatures: ['local-floor', 'hand-tracking']
+            }));
+        }
+        //Physics
+        this.world = new CANNON.World()
+        this.world.gravity.set(0,-15,0)
+        this.world.broadphase = new CANNON.SAPBroadphase(this.world)
+
+        //flat ground may change for to add collision to the actual race track
+        const Ground = new CANNON.Body({mass:0})
+        Ground.addShape(new CANNON.Plane());
+        Ground.quaternion.setFromEuler(-Math.PI/2,0,0)
+        this.world.addBody(Ground);
+        
+        //Lights and sky  
+        this.ambientLight = new Three.AmbientLight(0xffffff, 1);
+        const sun = new Three.DirectionalLight(0xffffff,1);
+        sun.position.set(50,100,50)
+        sun.castShadow = true;
+
+        this.scene.add(this.ambientLight);
+        this.scene.add(sun);
+        this.loadSkybox();
+
+
+        //Setting the environment and loading assets
+        this.init();
+       
+        this.debugPanel = document.createElement('div');
+        this.debugPanel.style.cssText = `
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            z-index: 9999;
+            pointer-events: none;
+        `;
+        document.body.appendChild(this.debugPanel);
+        window.vrLog = (msg) => {
+            this.debugPanel.innerHTML += msg + '<br>';
+            // Keep only last 10 lines
+                const lines = this.debugPanel.innerHTML.split('<br>');
+                if (lines.length > 10) {
+                    this.debugPanel.innerHTML = lines.slice(-10).join('<br>');
+                }
+            };
+            this.renderer.xr.addEventListener('sessionstart', () => {
+                const session = this.renderer.xr.getSession();
+                vrLog("Vr Session Started")
+
+        })
+    }
+    async init(){
+        //Setting the player Rig
+        this.playerRig = new Three.Group();
+        this.scene.add(this.playerRig);
+        //loading questions: this can be from a file/hardcoded for now but should be from a user upload or server in the future
+        await this.loadQeuestions("/questions.json");
+        console.log("Loaded Questions: ", this.questions);
+        this.RaceTrack = new RaceTrack(this.scene, this.world);
+        this.racer = new Racer(this.world, this.isVRSupported, this.renderer, this.playerRig, this.questions);
+        this.scene.add(this.racer.group)
+    }
+
+    async loadQeuestions(path = null, questionList = null){
+        if(!path && !questionList){
+            this.questions = [
+        {
+            question: "What is the fastest Big O time?",
+            answer: "O(logN)",
+            wrongAnswers: ["O(n)","O(N^2)", "O(2^n)"]
+        },
+        {
+            question: "which search sorting algorithm is the slowest?",
+            answer: "QuickSort",
+            wrongAnswers: ["Bubble Sort","Shell sort", "Selection Sort"] 
+        },
+        
+    ];
+    return this.questions;
+        }   else if(questionList){
+            this.questions = questionList;
+            return this.questions;
+        }
+        else{
+            try{
+                const response = await fetch(path);
+                const data = await response.json();
+                this.questions = data;
+                return data;
+        } catch(error){
+            console.error("Error loading questions:", error);
+            return this.questions = [];
+            return [];
+        }
+    }
+    }
+
+    loadSkybox(){
+        this.scene.background = new Three.CubeTextureLoader()
+        .setPath('Models/Skybox/')
+        .load([
+            'px.jpg', 'nx.jpg',
+            'py.jpg', 'ny.jpg',
+            'pz.jpg', 'nz.jpg'
+        ])}
+
+    render(dt){
+        if (!this.racer) return;
+        const fixedDt = Math.min(dt,0.05);
+
+        this.world.step(1/60,fixedDt);
+        this.racer.update(fixedDt, this.renderer);
+       
+        this.renderer.render(this.scene, this.racer.PlayerCamera)
+
+    }
+}
+
+const Game = new MainScene();
+let lastTime = 0;
+Game.renderer.setAnimationLoop((timestamp) => {
+    const dt = (timestamp - lastTime)/1000
+    lastTime = timestamp;
+    Game.render(dt);
+});
+
+//animate(0);
