@@ -30,11 +30,12 @@ class GameServer {
             next();
         });
 
-        this.app.get('/', function(req, res){
-            res.sendFile(__dirname + '/index.html');
-            console.log('Client connected');
-        });
+        this.app.get('/', (req, res) =>{
+            res.send('Game server is running')
+        })
         this.app.use(this.express.static(__dirname + '/public'));
+
+        
         this.rooms = {};
 
         try{
@@ -46,6 +47,7 @@ class GameServer {
             console.log("Error starting server: ", e);
         }
     }
+
     socketSetup(){
         const updateInterval = 1000 / 60; // 60 updates per second
         try{
