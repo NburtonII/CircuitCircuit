@@ -73,7 +73,10 @@ class MainScene{
         //server connection and updates
         this.room = null;
         this.roomState = null;
-        this.socket = io("https://192.168.1.195:3000",{ transports: ['websocket', 'polling']});
+        this.socket = io("https://dizzy-discount-delivery.ngrok-free.dev",{ 
+            transports: ['websocket', 'polling'], 
+            extraHeaders:{"ngrok-skip-browser-warning": "true"}
+        });
         const updateInterval = 1000 / 60; // 60 updates per second
         this.socket.on('connect', () => {
             console.log('Connected to server with id: ', this.socket.id);
