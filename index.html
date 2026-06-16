@@ -9,9 +9,39 @@
             }
     }
     </script>
-    <script type = "module" src = "/src/index.js">
-    </script>
+    <script type = "module" src = "/socket.io/socket.io.js"></script>
 </head>
 <body>
+    <div id = "login">
+        <form>
+            <label for="username">Username:</label>
+            <input type = "text" id = "username" name = "username">
+            <br>
+            <label for = "room">Room:</label>
+            <input type = "text" id = "room" name = "room">
+            <button type = "submit">Login</button>
+        </form>
+    </div>
+    <script> 
+        document.getElementById("login").addEventListener("submit", (event) =>{
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const room = document.getElementById("room").value;
+            if (username && room){
+                localStorage.setItem("username", username);
+                localStorage.setItem("room", room);
+                
+                document.getElementById("login").hidden = true;
+
+                const script = document.createElement("script");
+                script.type = "module";
+                script.src = "/src/index.js";
+                document.body.appendChild(script);
+            } else {
+                alert("Please enter both username and room.");
+            }
+        });
+    </script>
+    <!-- <script type = "module" src = "/src/index.js"></script> -->
 </body>
 </html>

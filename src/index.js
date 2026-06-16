@@ -1,10 +1,13 @@
 import * as Three from 'three';
 
 import { Plane } from 'three/src/math/Plane.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as CANNON from 'cannon-es'
 import {VRButton} from 'three/addons/webxr/VRButton.js';
 import RaceTrack  from './world.js';
 import Racer from './Racer.js';
+import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
+
 
 window.addEventListener('error', (e) => {
     const div = document.createElement('div');
@@ -13,9 +16,7 @@ window.addEventListener('error', (e) => {
     document.body.appendChild(div);
 });
 
-
 class MainScene{
-
     constructor(){
         //Renderer
         this.renderer = new Three.WebGLRenderer(
@@ -23,6 +24,9 @@ class MainScene{
             antialias:true,
             alpha:true
         });
+        this.otherPlayers = {};
+        this.loadOtherPLayerModel();
+
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth,window.innerHeight);
         this.renderer.shadowMap.enabled = true;
@@ -30,11 +34,12 @@ class MainScene{
         this.renderer.setClearColor(0x000000);
 
         this.scene = new Three.Scene();
-
+        
 
         //Vr Set up
         const params = new URL(document.location).searchParams;
         const isVRSupported = true; //params.get('vr') === 'true';
+        this.isVRSupported = isVRSupported;
         if (isVRSupported){
             this.renderer.xr.enabled = true;
             document.body.appendChild(VRButton.createButton(this.renderer, {
@@ -62,10 +67,71 @@ class MainScene{
         this.scene.add(sun);
         this.loadSkybox();
 
-
         //Setting the environment and loading assets
         this.init();
-       
+
+        //server connection and updates
+        this.room = null;
+        this.roomState = null;
+        this.socket = io("https://192.168.1.195:3000",{ transports: ['websocket', 'polling']});
+        const updateInterval = 1000 / 60; // 60 updates per second
+        this.socket.on('connect', () => {
+            console.log('Connected to server with id: ', this.socket.id);
+            this.username = document.getElementById('username').value || "Player1";
+            this.room = document.getElementById('room').value || "Room1";
+            this.socket.emit('joinRoom', {username: this.username, room: this.room});
+
+            this.socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+            });
+
+            this.socket.on('joinedRoom', ({username, room}) => {
+                console.log(`Joined room ${room} as ${username}`);
+                vrLog(`Joined room ${room} as ${username}`);
+            });
+
+            this.socket.on("playerJoined", ({username, room}) => {
+                console.log(`Player ${username} joined room ${room}`);
+                vrLog(`Player ${username} joined room ${room}`);
+            });
+
+            this.socket.on('roomStateUpdate', (state) => {
+                this.roomState = state;
+            });
+
+            this.socket.on('playerleft',([playerId]) =>
+            {
+                console.log(`Player ${playerId} left the room`);
+                vrLog(`Player ${playerId} left the room`);
+            });
+    
+            this.socket.on('updatePlayerMovement', ({id, movement}) => {
+                console.log(`Received movement update for player ${id}: `, movement);
+            });
+
+            setInterval(() => {
+                if (Game.racer) {
+                    const position = {
+                            x: Game.racer.group.position.x,
+                            y: Game.racer.group.position.y,
+                            z: Game.racer.group.position.z
+                };
+                    const rotation = {
+                            x: Game.racer.group.quaternion.x,
+                            y: Game.racer.group.quaternion.y,
+                            z: Game.racer.group.quaternion.z
+                        };
+
+                    this.socket.emit('playerMovement', {
+                        position: position,
+                        rotation: rotation
+                    });
+                    console.log("Emitted playerMovement: Position:" + JSON.stringify(position) + ", Rotation: " + JSON.stringify(rotation));
+                }
+
+            }, updateInterval)
+        });
+
         this.debugPanel = document.createElement('div');
         this.debugPanel.style.cssText = `
             position: fixed;
@@ -92,7 +158,66 @@ class MainScene{
                 vrLog("Vr Session Started")
 
         })
+
     }
+
+    async loadOtherPLayerModel(){
+        const loader = new GLTFLoader();
+        try{
+            const model = await loader.loadAsync('Models/CyberCar.glb');
+            this.otherPlayerModel = model.scene;
+            console.log("Loaded other player model: ", this.otherPlayerModel);
+
+        }catch(error){
+            console.error("Error loading other player model: ", error);
+            this.otherPlayerModel = null;
+        }
+    }
+
+    updateOtherPlayer(){
+        console.log("Room State: ", JSON.stringify(this.roomState))
+        if(!this.roomState) return;
+        for(const player of this.roomState.players) {
+            if(player.id === this.socket.id) continue;
+
+            if(!this.otherPlayers[player.id]){
+                let mesh;
+                if(this.otherPlayerModel){
+                    mesh = this.otherPlayerModel.clone();
+                }else{
+                    mesh = new Three.Mesh(
+                        new Three.BoxGeometry(1,1,2),
+                        new Three.MeshStandardMaterial({color: 0xff0000})
+                    );
+                }
+                this.scene.add(mesh);
+                this.otherPlayers[player.id] = mesh;
+                console.log(`Added new player ${player.id} to the scene`);
+            }
+            const mesh = this.otherPlayers[player.id];
+            if(player.movement?.position){
+                mesh.position.set(
+                    player.movement.position.x, 
+                    player.movement.position.y, 
+                    player.movement.position.z);
+            }
+            if(player.movement?.rotation){
+                mesh.rotation.set(
+                    player.movement.rotation.x, 
+                    player.movement.rotation.y, 
+                    player.movement.rotation.z);
+            }
+        }
+
+        Object.keys(this.otherPlayers).forEach(playerId => {
+            if(!this.roomState.players.find(p => p.id === playerId)){
+                this.scene.remove(this.otherPlayers[playerId]);
+                delete this.otherPlayers[playerId];
+                console.log(`Removed player ${playerId} from the scene`);
+            }
+        });
+    }
+
     async init(){
         //Setting the player Rig
         this.playerRig = new Three.Group();
@@ -101,7 +226,7 @@ class MainScene{
         await this.loadQeuestions("/questions.json");
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
-        this.racer = new Racer(this.world, this.isVRSupported, this.renderer, this.playerRig, this.questions);
+        this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions);
         this.scene.add(this.racer.group)
     }
 
@@ -120,7 +245,7 @@ class MainScene{
         },
         
     ];
-    return this.questions;
+        return this.questions;
         }   else if(questionList){
             this.questions = questionList;
             return this.questions;
@@ -134,7 +259,6 @@ class MainScene{
         } catch(error){
             console.error("Error loading questions:", error);
             return this.questions = [];
-            return [];
         }
     }
     }
@@ -148,13 +272,14 @@ class MainScene{
             'pz.jpg', 'nz.jpg'
         ])}
 
+
     render(dt){
         if (!this.racer) return;
         const fixedDt = Math.min(dt,0.05);
 
         this.world.step(1/60,fixedDt);
         this.racer.update(fixedDt, this.renderer);
-       
+        this.updateOtherPlayer();
         this.renderer.render(this.scene, this.racer.PlayerCamera)
 
     }
@@ -167,5 +292,3 @@ Game.renderer.setAnimationLoop((timestamp) => {
     lastTime = timestamp;
     Game.render(dt);
 });
-
-//animate(0);

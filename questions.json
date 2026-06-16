@@ -3,101 +3,101 @@
     {
     "question": "What is the fastest Big O time?",
     "answer": "O(logN)",
-    "wrongAnswer": ["O(2^n)"]
+    "wrongAnswer": "O(2^n)"
     },
     {
     "question": "which search sorting algorithm is the slowest?",
     "answer": "Bublble Sort",
-    "wrongAnswer": ["Shell sort"]
+    "wrongAnswer": "Shell sort"
     },
     {
         "question": "Which are valid Python data types?",
-        "answer": ["tuple"],
+        "answer": "tuple",
         "wrongAnswer": "vector"
     },
     {
         "question": "Which are valid ways to declare a variable in JavaScript?",
-        "answer": ["const"],
+        "answer": "const",
         "wrongAnswer": "var x ="
     },
     {      
         "question": "Which are valid ways to declare a variable in JavaScript?",
-        "answer": ["const"],
+        "answer": "const",
         "wrongAnswer": "var x ="
     },
     {
         "question": "Which sorting algorithm is O(n log n) average case?",
-        "answer": ["Merge Sort"],
+        "answer": "Merge Sort",
         "wrongAnswer": "Bubble Sort"
     },
     {
         "question": "What is an example of an OOP principle?",
-        "answer": ["Inheritance"],
+        "answer": "Inheritance",
         "wrongAnswer": "Compilation"
     },{
         "question": "What is an example of an OOP principle?",
-        "answer": ["Inheritance"],
+        "answer": "Inheritance",
         "wrongAnswer": "Compilation"
     },
     {
         "question": "What is a valid HTTP method?",
-        "answer": ["POST"],
+        "answer": "POST",
         "wrongAnswer": "FETCH"
     },
     {
         "question": "What is an example of a linear data structure?",
-        "answer": ["Linked List"],
+        "answer": "Linked List",
         "wrongAnswer": "Binary Tree"
     },
     {
         "question": "What language is statically typed?",
-        "answer": ["C++"],
+        "answer": "C++",
         "wrongAnswer": "Python"
     },
     {
         "question": "What is an valid SQL commands?",
-        "answer": ["INSERT"],
+        "answer": "INSERT",
         "wrongAnswer": "GRAB"
     },
     {
         "question": "What is an valid SQL commands?",
-        "answer": ["INSERT"],
+        "answer": "INSERT",
         "wrongAnswer": "GRAB"
     },
     {
         "question": "What is an example of a NoSQL database?",
-        "answer": ["MongoDB"],
+        "answer": "MongoDB",
         "wrongAnswer": "PostgreSQL"
     },
     {
         "question": "What is a valid Git commands?",
-        "answer": ["git push"],
+        "answer": "git push",
         "wrongAnswer": "git upload"
     },
     {
         "question": "What is a valid Python list methods?",
-        "answer": ["append()"],
+        "answer": "append()",
         "wrongAnswer": "push()"
     },
     {
 
         "question": "What is an example of a design pattern?",
-        "answer": ["Singleton"],
+        "answer": "Singleton",
         "wrongAnswer": "Compiler"
     },
     {
         "question": "What is a valid CSS properties?",
-        "answer": ["margin"],
+        "answer": "margin",
         "wrongAnswer": "spacing"
     },
     {
         "question": "What is a valid JavaScript array methods?",
-        "answer": ["map()"],
+        "answer": "map()",
         "wrongAnswer": "search()"
     },
     {
         "question": "What is an example of a compiled language?",
-        "answer": ["C"],
+        "answer": "C",
         "wrongAnswer": "JavaScript"
     }
 ]

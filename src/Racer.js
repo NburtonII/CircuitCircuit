@@ -64,14 +64,13 @@ class Racer{
     
         this.camHolder.add(this.PlayerCamera);
         const testvec = new Three.Vector3(-0.5,1.2,0.5)
-        const HeadsetVec = new Three.Vector3(-0.5,0,0.5);
+        const HeadsetVec = new Three.Vector3(-0.5,0.03,0.2);
         this.camPos = testvec.clone();
         
         this.camHolder.position.copy(this.camPos)
         this.handAnchors.position.copy(this.camPos)
 
      //Quiz Stuff
-
 
     this.titleText = "Quiz Time"
     this.currentQuestion = null;

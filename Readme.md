@@ -5,30 +5,24 @@ This VR racing game will allow the user pilot a car and race class mates around 
 >Note: The name is still under Review
 
 ## Questions
-The questions will be asked on a interface on the wheel. Each question will have its own button the user can select with a VR pointer. 
+The questions are asked using an interface on the wheel. Each question will have its own button the user can select with a VR pointer. 
 
-The questions will focus on algorithm speed and big O questions. This is meant to introduce and lock in the speeds relative of each other. In order to keep students from just memorizing the correct answer certain questions can have a list of answer choices with ranking values associated with their speed. When the question is chosen a random set can be selected and the one with the highest speed ranking is the correct answer. 
+The questions now include a variety of computer science related topics. This is meant to introduce basic concepts to beginner students. Further development will allow educators to create their own quiz list that will be will be used in the list.
 
 #### Question Examples
 1. What search algorithm is faster
     - Bubble sort
-    - Selection Sort
-    - Merge Sort
     - Quick Sort
 
 2. Which Run time is faster? 
-    - O(N)
     - O(N<sup>2</sup>)
     - O(Log(N))
-    - O(2N)
 
 ## Driving Mechanics 
 
-The Game will be a typical kart racing game. The vehicle should have semi realistic physics. It will be driven by the user using the VR controllers to grab a steering wheel. 
+The quiz is the primary focus of this game, because of this the plan is to create the racer in the style of an endless runner. The carts will have a constant speed forward with the drivers able to have limited steering ability. This is to keep the focus on the quiz while providing a fun challenge to the student without overwhelming them. The 
 
->Note: Need to figure out how to control thrust in VR.
-
-The VR player would be located inside the car able to control thrust and steering wheels.
+The VR player would be located inside the car able to control thrust and steering wheels. Current implementation just uses the joysticks to drive.
 
 ## Theme
 
