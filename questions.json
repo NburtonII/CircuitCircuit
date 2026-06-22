@@ -1,14 +1,13 @@
 [
-
     {
-    "question": "What is the fastest Big O time?",
-    "answer": "O(logN)",
-    "wrongAnswer": "O(2^n)"
+        "question": "What is the fastest Big O time?",
+        "answer": "O(logN)",
+        "wrongAnswer": "O(2^n)"
     },
     {
-    "question": "which search sorting algorithm is the slowest?",
-    "answer": "Bublble Sort",
-    "wrongAnswer": "Shell sort"
+        "question": "which search sorting algorithm is the slowest?",
+        "answer": "Bublble Sort",
+        "wrongAnswer": "Shell sort"
     },
     {
         "question": "Which are valid Python data types?",

@@ -73,9 +73,10 @@ class MainScene{
         //server connection and updates
         this.room = null;
         this.roomState = null;
-        this.socket = io("https://dizzy-discount-delivery.ngrok-free.dev",{ 
-            transports: ['websocket', 'polling'], 
-            extraHeaders:{"ngrok-skip-browser-warning": "true"}
+        this.tunnel = "https://dizzy-discount-delivery.ngrok-free.dev"
+        this.localHost = "http://localhost:3000"
+        this.socket = io(this.tunnel,{
+            transports: ['websocket', 'polling']
         });
         const updateInterval = 1000 / 60; // 60 updates per second
         this.socket.on('connect', () => {
