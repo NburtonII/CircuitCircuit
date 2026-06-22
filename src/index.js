@@ -168,7 +168,8 @@ class MainScene{
     async loadOtherPLayerModel(){
         const loader = new GLTFLoader();
         try{
-            const model = await loader.loadAsync('Models/CyberCar.glb');
+            //const model = await loader.loadAsync('Models/CyberCar.glb');
+            const model = await loader.loadAsync('https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/Models/RacerCar.glb');
             this.otherPlayerModel = model.scene;
             console.log("Loaded other player model: ", this.otherPlayerModel);
 
