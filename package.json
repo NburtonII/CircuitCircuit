@@ -2,7 +2,7 @@
   "dependencies": {
     "express": "^5.2.1",
     "socket.io": "^4.8.3",
-    "three": "^0.183.2"
+    "three": "^0.165.0"
   },
   "devDependencies": {
     "@vitejs/plugin-basic-ssl": "^2.3.0",
