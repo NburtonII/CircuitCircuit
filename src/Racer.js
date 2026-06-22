@@ -1,10 +1,16 @@
-import * as Three from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-import {XRControllerModelFactory} from 'three/addons/webxr/XRControllerModelFactory.js';
-import { OculusHandModel } from 'three/addons/webxr/OculusHandModel.js';
-import * as CANNON from 'cannon-es';
-import { texture } from 'three/tsl';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/XRControllerModelFactory.js';
+
+import { OculusHandModel } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/OculusHandModel.js';
+
+import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+
+import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.webgpu.js';
+
+
 //import { calcRationalCurveDerivatives } from 'three/examples/jsm/curves/NURBSUtils.js';
 ///This class is responsible for creating the player's car, handling input, and managing the quiz interface. It interacts with the physics world to move the car and uses Three.js to render the car and UI elements. The quiz questions are stored in an array and can be expanded or loaded from an external source. The class also handles VR controller input for steering and answering quiz questions.
 class Racer{

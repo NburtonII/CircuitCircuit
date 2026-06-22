@@ -1,12 +1,19 @@
-import * as Three from 'three';
+import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-import { Plane } from 'three/src/math/Plane.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import * as CANNON from 'cannon-es'
-import {VRButton} from 'three/addons/webxr/VRButton.js';
-import RaceTrack  from './world.js';
-import Racer from './Racer.js';
+//import Plane  from 'https://cdn.jsdelivr.net/npm/three@0.160.0/src/math/Plane.js';
+
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/VRButton.js';
+
+import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+
 import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
+
+import RaceTrack  from '.https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.jsr.js';
+
+import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/Racer.js';
+
 
 
 window.addEventListener('error', (e) => {
