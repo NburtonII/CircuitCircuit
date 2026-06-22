@@ -4,10 +4,7 @@ import fs from 'fs';
 export default defineConfig({
 plugins: [basicSsl()],
 server: {
-    https: {
-         key:  fs.readFileSync('key.pem'),
-        cert: fs.readFileSync('cert.pem')
-    },
+    https: true,
     host: true
 }
 });
