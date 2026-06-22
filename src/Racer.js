@@ -1,14 +1,14 @@
-import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/loaders/GLTFLoader.js';
 
-import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/XRControllerModelFactory.js';
+import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/webxr/XRControllerModelFactory.js';
 
-import { OculusHandModel } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/OculusHandModel.js';
+import { OculusHandModel } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/webxr/OculusHandModel.js';
 
 import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
 
-import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.webgpu.js';
+import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.webgpu.js';
 
 
 //import { calcRationalCurveDerivatives } from 'three/examples/jsm/curves/NURBSUtils.js';
