@@ -8,7 +8,7 @@ import { OculusHandModel } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exam
 
 import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
 
-import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.webgpu.js';
+//import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.webgpu.js';
 
 
 //import { calcRationalCurveDerivatives } from 'three/examples/jsm/curves/NURBSUtils.js';
