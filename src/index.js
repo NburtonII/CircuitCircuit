@@ -1,14 +1,14 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.min.js';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/webxr/VRButton.js';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
 
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+import * as CANNON from 'cannon-es';
 
-import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
+import { io } from 'socket.io-client';
 
-import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/world.js';
+import RaceTrack from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/world.js';
 
 import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/Racer.js';
 

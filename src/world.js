@@ -1,10 +1,10 @@
-import * as three from 'https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js';
+import * as THREE from 'three';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/webxr/VRButton.js';
+//import { VRButton } from 'https://cdn.jsdelivr.net/npm/THREE@0.185.0/examples/jsm/webxr/VRButton.js';
 
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+import * as CANNON from 'cannon-es';
 
 class RaceTrack{
     constructor(scene, world){
