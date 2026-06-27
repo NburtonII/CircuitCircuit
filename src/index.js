@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.min.js';
+import * as THREE from 'Three';
 
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
