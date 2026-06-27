@@ -8,9 +8,9 @@ import * as CANNON from 'cannon-es';
 
 import { io } from 'socket.io-client';
 
-import RaceTrack from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/world.js';
+import RaceTrack from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.js';
 
-import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/Racer.js';
+import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/Racer.js';
 
 
 
