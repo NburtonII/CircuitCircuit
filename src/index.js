@@ -24,7 +24,7 @@ window.addEventListener('error', (e) => {
 class MainScene{
     constructor(){
         //Renderer
-        this.renderer = new Three.WebGLRenderer(
+        this.renderer = new THREE.WebGLRenderer(
             {
             antialias:true,
             alpha:true
