@@ -15,7 +15,7 @@ class RaceTrack{
 
     async loadModel(scene){
         const loader = new GLTFLoader();
-        const Track = await loader.loadAsync('Models/RaceTrack.glb')
+        const Track = await loader.loadAsync('https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/Models/RaceTrack.glb')
         const raceTrack = Track.scene;
          
         raceTrack.traverse((child)=>{

@@ -8,7 +8,7 @@ import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cann
 
 import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
 
-import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/world.jsr.js';
+import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.js';
 
 import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/Racer.js';
 
@@ -174,7 +174,7 @@ class MainScene{
         const loader = new GLTFLoader();
         try{
             //const model = await loader.loadAsync('Models/CyberCar.glb');
-            const model = await loader.loadAsync('https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/Models/RacerCar.glb');
+            const model = await loader.loadAsync('https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/Models/RacerCar.glb');
             this.otherPlayerModel = model.scene;
             console.log("Loaded other player model: ", this.otherPlayerModel);
 
@@ -233,7 +233,7 @@ class MainScene{
         this.playerRig = new Three.Group();
         this.scene.add(this.playerRig);
         //loading questions: this can be from a file/hardcoded for now but should be from a user upload or server in the future
-        await this.loadQeuestions("/questions.json");
+        await this.loadQeuestions("/https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/questions.json");
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
         this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions);
