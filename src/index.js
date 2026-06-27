@@ -8,9 +8,9 @@ import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cann
 
 import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
 
-import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@216aa09a554d157360568a4ddaef5725a918eede/src/world.jsr.js';
+import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.jsr.js';
 
-import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@216aa09a554d157360568a4ddaef5725a918eede/src/Racer.js';
+import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/Racer.js';
 
 
 
