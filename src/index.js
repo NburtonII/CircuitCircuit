@@ -1,16 +1,17 @@
-import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+//Adding content to make this the latest version
+import * as THREE from 'three';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/VRButton.js';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
 
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+import * as CANNON from 'cannon-es';
 
-import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
+import { io } from 'socket.io-client';
 
-import RaceTrack  from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.js';
+import RaceTrack from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/world.js';
 
-import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/src/Racer.js';
+import Racer from 'https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/src/Racer.js';
 
 
 
@@ -24,7 +25,7 @@ window.addEventListener('error', (e) => {
 class MainScene{
     constructor(){
         //Renderer
-        this.renderer = new Three.WebGLRenderer(
+        this.renderer = new THREE.WebGLRenderer(
             {
             antialias:true,
             alpha:true
@@ -38,7 +39,7 @@ class MainScene{
         document.body.appendChild(this.renderer.domElement);
         this.renderer.setClearColor(0x000000);
 
-        this.scene = new Three.Scene();
+        this.scene = new THREE.Scene();
         
 
         //Vr Set up
@@ -63,8 +64,8 @@ class MainScene{
         this.world.addBody(Ground);
         
         //Lights and sky  
-        this.ambientLight = new Three.AmbientLight(0xffffff, 1);
-        const sun = new Three.DirectionalLight(0xffffff,1);
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        const sun = new THREE.DirectionalLight(0xffffff,1);
         sun.position.set(50,100,50)
         sun.castShadow = true;
 
@@ -195,9 +196,9 @@ class MainScene{
                 if(this.otherPlayerModel){
                     mesh = this.otherPlayerModel.clone();
                 }else{
-                    mesh = new Three.Mesh(
-                        new Three.BoxGeometry(1,1,2),
-                        new Three.MeshStandardMaterial({color: 0xff0000})
+                    mesh = new THREE.Mesh(
+                        new THREE.BoxGeometry(1,1,2),
+                        new THREE.MeshStandardMaterial({color: 0xff0000})
                     );
                 }
                 this.scene.add(mesh);
@@ -230,7 +231,7 @@ class MainScene{
 
     async init(){
         //Setting the player Rig
-        this.playerRig = new Three.Group();
+        this.playerRig = new THREE.Group();
         this.scene.add(this.playerRig);
         //loading questions: this can be from a file/hardcoded for now but should be from a user upload or server in the future
         await this.loadQeuestions("/https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/questions.json");
@@ -274,7 +275,7 @@ class MainScene{
     }
 
     loadSkybox(){
-        this.scene.background = new Three.CubeTextureLoader()
+        this.scene.background = new THREE.CubeTextureLoader()
         .setPath('Models/Skybox/')
         .load([
             'px.jpg', 'nx.jpg',

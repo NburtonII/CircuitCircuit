@@ -1,18 +1,18 @@
-import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import * as THREE from 'three';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/XRControllerModelFactory.js';
+import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
 
-import { OculusHandModel } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/webxr/OculusHandModel.js';
+import { OculusHandModel } from 'three/addons/webxr/OculusHandModel.js';
 
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+import * as CANNON from 'cannon-es';
 
-//import { texture } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.webgpu.js';
+//import { texture } from 'https://cdn.jsdelivr.net/npm/THREE@0.185.0/build/THREE.webgpu.js';
 
 
-//import { calcRationalCurveDerivatives } from 'three/examples/jsm/curves/NURBSUtils.js';
-///This class is responsible for creating the player's car, handling input, and managing the quiz interface. It interacts with the physics world to move the car and uses Three.js to render the car and UI elements. The quiz questions are stored in an array and can be expanded or loaded from an external source. The class also handles VR controller input for steering and answering quiz questions.
+//import { calcRationalCurveDerivatives } from 'THREE/examples/jsm/curves/NURBSUtils.js';
+///This class is responsible for creating the player's car, handling input, and managing the quiz interface. It interacts with the physics world to move the car and uses THREE.js to render the car and UI elements. The quiz questions are stored in an array and can be expanded or loaded from an external source. The class also handles VR controller input for steering and answering quiz questions.
 class Racer{
     constructor(world, isVr = false, renderer = null, playerRig = null, questionList = null){
         this.questions = questionList
@@ -56,12 +56,12 @@ class Racer{
             left:{grabbing:false, object:null},
             right:{grabbing:false, object:null}
         }
-        this.group = new Three.Group();
+        this.group = new THREE.Group();
         this.maxFOV = 90;
         this.minFOV = 75;
-        this.PlayerCamera = new Three.PerspectiveCamera(this.minFOV, window.innerWidth/window.innerHeight, 0.1, 1000);
-        this.camHolder = new Three.Object3D();
-        this.handAnchors = new Three.Object3D();
+        this.PlayerCamera = new THREE.PerspectiveCamera(this.minFOV, window.innerWidth/window.innerHeight, 0.1, 1000);
+        this.camHolder = new THREE.Object3D();
+        this.handAnchors = new THREE.Object3D();
         this.group.add(this.playerRig)
         this.playerRig.position.set(0,0,0.2)
     
@@ -69,8 +69,8 @@ class Racer{
         this.playerRig.add(this.handAnchors)
     
         this.camHolder.add(this.PlayerCamera);
-        const testvec = new Three.Vector3(-0.5,1.2,0.5)
-        const HeadsetVec = new Three.Vector3(-0.5,0.03,0.2);
+        const testvec = new THREE.Vector3(-0.5,1.2,0.5)
+        const HeadsetVec = new THREE.Vector3(-0.5,0.03,0.2);
         this.camPos = testvec.clone();
         
         this.camHolder.position.copy(this.camPos)
@@ -150,23 +150,23 @@ updateButtonLabels(){
 
         switch (data.targetRayMode){
             case 'tracked-pointer':
-                geometry = new Three.BufferGeometry();
-                geometry.setAttribute('position', new Three.Float32BufferAttribute([0,0,0, 0,0,-1], 3));
-                geometry.setAttribute('color', new Three.Float32BufferAttribute([0.5,0.5,0.5, 0,0,0], 3));
+                geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute([0,0,0, 0,0,-1], 3));
+                geometry.setAttribute('color', new THREE.Float32BufferAttribute([0.5,0.5,0.5, 0,0,0], 3));
 
-                material = new Three.LineBasicMaterial({
+                material = new THREE.LineBasicMaterial({
                     vertexColors: true,
-                    blending: Three.AdditiveBlending
+                    blending: THREE.AdditiveBlending
                 });
 
-                return new Three.Line(geometry, material);
+                return new THREE.Line(geometry, material);
             case 'gaze':
-                geometry = new Three.RingGeometry(0.02, 0.04, 32).translate(0,0,-1);
-                material = new Three.MeshBasicMaterial({
+                geometry = new THREE.RingGeometry(0.02, 0.04, 32).translate(0,0,-1);
+                material = new THREE.MeshBasicMaterial({
                     opacity: 0.5,
                     transparent:true,
                 })
-                return new Three.Mesh(geometry, material);
+                return new THREE.Mesh(geometry, material);
         }
     }
 
@@ -223,24 +223,24 @@ updateButtonLabels(){
             }
 
         this.WelcomeMsg = "Get ready for a question!"
-        this.screenAnchor = new Three.Group()
+        this.screenAnchor = new THREE.Group()
         this.innerInterface.add(this.screenAnchor)
         // Create the screen
         this.screenCanvas = document.createElement('canvas');
         this.screenCanvas.width = 200;
         this.screenCanvas.height = 200;
 
-        this.screenTexture = new Three.CanvasTexture(this.screenCanvas);
-        this.screenMat = new Three.MeshBasicMaterial({
+        this.screenTexture = new THREE.CanvasTexture(this.screenCanvas);
+        this.screenMat = new THREE.MeshBasicMaterial({
             map: this.screenTexture,
-            side: Three.DoubleSide,
+            side: THREE.DoubleSide,
             toneMapped: false
         });  
 
         
-        const screenGeometry = new Three.CircleGeometry(0.25,64);
+        const screenGeometry = new THREE.CircleGeometry(0.25,64);
 
-        this.screen = new Three.Mesh(
+        this.screen = new THREE.Mesh(
             screenGeometry,
             this.screenMat
         )
@@ -257,19 +257,19 @@ updateButtonLabels(){
 
     
         //Buttons 
-        const buttongeometry = new Three.BoxGeometry(0.15, 0.09, 0.01);
-        //const buttonMat = new Three.MeshStandardMaterial({color: 0x2196f3})
+        const buttongeometry = new THREE.BoxGeometry(0.15, 0.09, 0.01);
+        //const buttonMat = new THREE.MeshStandardMaterial({color: 0x2196f3})
 
         const buttoncanvas = document.createElement('canvas');
         buttoncanvas.width = 128;
         buttoncanvas.height = 64;
 
-        const buttonMat = new Three.MeshBasicMaterial({
-            map: new Three.CanvasTexture(buttoncanvas),
+        const buttonMat = new THREE.MeshBasicMaterial({
+            map: new THREE.CanvasTexture(buttoncanvas),
             toneMapped: false
         });
 
-        const buttonScreen = new Three.Mesh(
+        const buttonScreen = new THREE.Mesh(
             buttongeometry,
             buttonMat.clone()
         );
@@ -283,13 +283,13 @@ updateButtonLabels(){
             const btnCanvas = document.createElement('canvas');
             btnCanvas.width = 128;
             btnCanvas.height = 64;
-            const btnTexture = new Three.CanvasTexture(btnCanvas);
-            const btnMat = new Three.MeshBasicMaterial({
+            const btnTexture = new THREE.CanvasTexture(btnCanvas);
+            const btnMat = new THREE.MeshBasicMaterial({
                 map: btnTexture,
                 toneMapped: false
             });
 
-            const btn = new Three.Mesh(buttongeometry, btnMat);
+            const btn = new THREE.Mesh(buttongeometry, btnMat);
         
             
             btn.userData.label = label;
@@ -410,7 +410,7 @@ updateButtonLabels(){
 
         let vertices = [];
         raceCar.traverse((child)=>{
-            if(child instanceof Three.Mesh){
+            if(child instanceof THREE.Mesh){
                 console.log(child.name);
                 if(child.name === "OuterSteeringWheel"){
                     this.steeringWheel = child;
@@ -422,7 +422,7 @@ updateButtonLabels(){
                 }
                     const positions = child.geometry.attributes.position.array
                     for (let i = 0; i < positions.count;i++){
-                        const vertex = new Three.Vector3().fromBufferAttribute(positions, i);
+                        const vertex = new THREE.Vector3().fromBufferAttribute(positions, i);
                         vertices.push(vertex);
                 }
                 }
@@ -543,13 +543,13 @@ updateButtonLabels(){
 
         tryGrab(side){
             const controller = side == 'left'? this.VrControllerLeft : this.VrControllerRight;
-            const controllerPos = new Three.Vector3();
+            const controllerPos = new THREE.Vector3();
             controller.getWorldPosition(controllerPos);
 
            if(this.buttons){
             for (let i = 0; i < this.buttons.length;i++){
                 const btn = this.buttons[i];
-                const btnPos = new Three.Vector3();
+                const btnPos = new THREE.Vector3();
                 btn.getWorldPosition(btnPos);
                 const distance = controllerPos.distanceTo(btnPos);
                 if(distance < 0.08){
@@ -561,7 +561,7 @@ updateButtonLabels(){
            }
 
            if(this.steeringWheel){
-            const wheelPos = new Three.Vector3();
+            const wheelPos = new THREE.Vector3();
             this.steeringWheel.getWorldPosition(wheelPos);
             if(controllerPos.distanceTo(wheelPos) < 1.75){
                 this.grabState[side].grabbing = true;
@@ -588,9 +588,9 @@ updateButtonLabels(){
             return;
         }
 
-        const handQuat = new Three.Quaternion();
+        const handQuat = new THREE.Quaternion();
         hand.getWorldQuaternion(handQuat);
-        const euler = new Three.Euler().setFromQuaternion(handQuat, 'XYZ');
+        const euler = new THREE.Euler().setFromQuaternion(handQuat, 'XYZ');
         //Clamp to max steering angle
         const clampedAngle = Math.max(
             -this.maxTurnRadius,
