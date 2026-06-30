@@ -395,7 +395,7 @@ updateButtonLabels(){
         const loader = new GLTFLoader();
         let model
         try{
-        model = await loader.loadAsync("https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/Models/RacerCar.glb");
+        model = await loader.loadAsync("https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/Models/CyberCar.glb");
         } catch (error){
             console.error("Error loading model:", error);
             return;
