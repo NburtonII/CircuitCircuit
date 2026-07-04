@@ -97,8 +97,15 @@ class Racer{
 }
     setQuestion(question){
         this.currentQuestion = question;
-        this.currentAnswer = question.answer;
-        this.buttonAnswers = [this.currentAnswer, question.wrongAnswer];
+
+        const allAnswers = [question.answer, question.wrongAnswer];
+        //Shuffle the answers
+        for(let i = allAnswers.length - 1; i > 0; i--){
+            const j = Math.floor(Math.random() * (i + 1));
+            [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
+        }
+        this.buttonAnswers = allAnswers.slice(0, 2);
+        this.correctButtonIndex = this.buttonAnswers.indexOf(question.answer);
         this.updateScreen(this.currentQuestion.question, '');
         this.updateButtonLabels();
     }
