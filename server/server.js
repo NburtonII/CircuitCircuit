@@ -132,7 +132,7 @@ class GameServer {
         }); 
         setInterval(() => {
             Object.keys(server.rooms).forEach(roomId => {
-                console.log(`Updating room ${roomId}`);
+                //console.log(`Updating room ${roomId}`);
                 const room = server.rooms[roomId];
                 const state = {
                     players: room.players.map(player => ({
@@ -177,6 +177,7 @@ class GameServer {
         
         this.loadQuestions(null, roomId);
         setInterval(() => {
+            console.log(`Choosing new question for room ${roomId}`);
             if (this.rooms[roomId].quiz === null) {
                 this.loadQuestions(null, roomId);
             }
@@ -211,7 +212,7 @@ async loadQuestions(questionList = null, roomId = null){
     ChooseQuestion(roomId){
         if (!this.rooms[roomId] || !this.rooms[roomId].quiz || !this.rooms[roomId].quiz.questions) {
             console.log("No questions available for room: ", roomId);
-            return;
+            this.loadQuestions(null, roomId);
         }
 
         const currentQuestion = this.rooms[roomId].quiz.questions[Math.floor(Math.random()*this.rooms[roomId].quiz.questions.length)];

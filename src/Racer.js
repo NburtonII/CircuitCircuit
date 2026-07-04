@@ -246,7 +246,7 @@ updateButtonLabels(){
     
         //Buttons 
         const buttongeometry = new THREE.BoxGeometry(0.15, 0.09, 0.01);
-        //const buttonMat = new THREE.MeshStandardMaterial({color: 0x2196f3})
+        const buttonMat = new THREE.MeshStandardMaterial({color: 0x2196f3})
 
         const buttoncanvas = document.createElement('canvas');
         buttoncanvas.width = 128;
