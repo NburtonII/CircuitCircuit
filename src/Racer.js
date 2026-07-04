@@ -291,8 +291,6 @@ updateButtonLabels(){
             this.screenAnchor.add(btn);
             this.buttons.push(btn);
         });
-        this.loadRandomQuestions();
-        setInterval(() => this.loadRandomQuestions(), 10000);
     }
 
     updateScreen(question, feedback){

@@ -242,45 +242,45 @@ class MainScene{
         this.playerRig = new THREE.Group();
         this.scene.add(this.playerRig);
         //loading questions: this can be from a file/hardcoded for now but should be from a user upload or server in the future
-        await this.loadQeuestions("/https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/questions.json");
+
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
         this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions);
         this.scene.add(this.racer.group)
     }
 
-    async loadQeuestions(path = null, questionList = null){
-        if(!path && !questionList){
-            this.questions = [
-        {
-            question: "What is the fastest Big O time?",
-            answer: "O(logN)",
-            wrongAnswers: ["O(n)","O(N^2)", "O(2^n)"]
-        },
-        {
-            question: "which search sorting algorithm is the slowest?",
-            answer: "QuickSort",
-            wrongAnswers: ["Bubble Sort","Shell sort", "Selection Sort"] 
-        },
+    // async loadQeuestions(path = null, questionList = null){
+    //     if(!path && !questionList){
+    //         this.questions = [
+    //     {
+    //         question: "What is the fastest Big O time?",
+    //         answer: "O(logN)",
+    //         wrongAnswers: ["O(n)","O(N^2)", "O(2^n)"]
+    //     },
+    //     {
+    //         question: "which search sorting algorithm is the slowest?",
+    //         answer: "QuickSort",
+    //         wrongAnswers: ["Bubble Sort","Shell sort", "Selection Sort"] 
+    //     },
         
-    ];
-        return this.questions;
-        }   else if(questionList){
-            this.questions = questionList;
-            return this.questions;
-        }
-        else{
-            try{
-                const response = await fetch(path);
-                const data = await response.json();
-                this.questions = data;
-                return data;
-        } catch(error){
-            console.error("Error loading questions:", error);
-            return this.questions = [];
-        }
-    }
-    }
+    // ];
+    //     return this.questions;
+    //     }   else if(questionList){
+    //         this.questions = questionList;
+    //         return this.questions;
+    //     }
+    //     else{
+    //         try{
+    //             const response = await fetch(path);
+    //             const data = await response.json();
+    //             this.questions = data;
+    //             return data;
+    //     } catch(error){
+    //         console.error("Error loading questions:", error);
+    //         return this.questions = [];
+    //     }
+    // }
+    // }
 
     loadSkybox(){
         this.scene.background = new THREE.CubeTextureLoader()

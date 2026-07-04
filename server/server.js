@@ -81,10 +81,10 @@ class GameServer {
                 const newPlayer = new player(socket.id, username, {}, room);
                 this.addPlayerToRoom(room, newPlayer);
                 socket.join(room);
-                console.log(`Player ${username} joined room ${room}`);
+       //         console.log(`Player ${username} joined room ${room}`);
 
-                socket.emit('joinedRoom', {username:username, room: this.rooms[room]});
-                console.log('Current room state: ', JSON.stringify(this.rooms[room]));
+     //           socket.emit('joinedRoom', {username:username, room: this.rooms[room]});
+   //             console.log('Current room state: ', JSON.stringify(this.rooms[room]));
             });
 
             socket.on('disconnect', () => {
@@ -122,11 +122,10 @@ class GameServer {
                     }))
                 };
 
-                //server.UpdateRoomState(roomId, state);
-                
-                //server.io.to(roomId).emit('roomStateUpdate', state);
-                console.log(`Emitted roomStateUpdate for room ${roomId}, State: `, JSON.stringify(state));
-                console.log(`Room: ${JSON.stringify(room)}`);
+                server.UpdateRoomState(roomId, state);
+                server.io.to(roomId).emit('roomStateUpdate', state);
+//console.log(`Emitted roomStateUpdate for room ${roomId}, State: `, JSON.stringify(state));
+ //               console.log(`Room: ${JSON.stringify(room)}`);
             });
 
 
@@ -149,7 +148,7 @@ class GameServer {
                     }; // Skip empty rooms
                 server.UpdateRoomState(roomId, state);
                 server.io.to(roomId).emit('roomStateUpdate', state);
-                console.log(`Emitted roomStateUpdate for room ${roomId}, State: `, JSON.stringify(state));
+                // console.log(`Emitted roomStateUpdate for room ${roomId}, State: `, JSON.stringify(state));
         });
     }, this.updateInterval);
     }
@@ -173,35 +172,48 @@ class GameServer {
             state: null,
             quiz: null
         };
-        loadQuestions(null, roomId);
+        if (this.rooms[roomId].quiz === null) {
+            this.loadQuestions(null, roomId);
+        
+        this.loadQuestions(null, roomId);
         setInterval(() => {
+            if (this.rooms[roomId].quiz === null) {
+                this.loadQuestions(null, roomId);
+            }
             this.ChooseQuestion(roomId);
-            
+
         }, 30000); // Choose a new question every 30 seconds
     }
+}
+
 async loadQuestions(questionList = null, roomId = null){
     console.log("Loading questions...");
-    fetch("https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/questions.json")
+    fetch("https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@main/questions.json")
     .then(response => {
         if(!response.ok){
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
     }).then(data => {
-        let questions = data;
-        console.log("Questions loaded: ", JSON.stringify(questions));
+        this.questions = data;
+        console.log("Questions loaded: ", JSON.stringify(this.questions));
     }).catch(error => {
         console.error("Error loading questions: ", error); 
 
     });
 
     this.rooms[roomId].quiz = {
-        questions: questions,
+        questions: this.questions, 
         currentQuestionIndex: 0
     };
 }
 
     ChooseQuestion(roomId){
+        if (!this.rooms[roomId] || !this.rooms[roomId].quiz || !this.rooms[roomId].quiz.questions) {
+            console.log("No questions available for room: ", roomId);
+            return;
+        }
+
         const currentQuestion = this.rooms[roomId].quiz.questions[Math.floor(Math.random()*this.rooms[roomId].quiz.questions.length)];
         const allAnswers = [currentQuestion.answer, currentQuestion.wrongAnswer];
         console.log("ChoosingQUestion")
