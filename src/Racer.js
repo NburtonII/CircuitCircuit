@@ -98,7 +98,7 @@ class Racer{
     setQuestion(question){
         this.currentQuestion = question;
         this.currentAnswer = question.answer;
-        const allAnswers = [this.currentAnswer, question.wrongAnswer];
+        this.buttonAnswers = [this.currentAnswer, question.wrongAnswer];
         this.updateScreen(this.currentQuestion.question, '');
         this.updateButtonLabels();
     }
@@ -246,7 +246,7 @@ updateButtonLabels(){
     
         //Buttons 
         const buttongeometry = new THREE.BoxGeometry(0.15, 0.09, 0.01);
-        const buttonMat = new THREE.MeshStandardMaterial({color: 0x2196f3})
+        //const buttonMat = new THREE.MeshStandardMaterial({color: 0x2196f3})
 
         const buttoncanvas = document.createElement('canvas');
         buttoncanvas.width = 128;

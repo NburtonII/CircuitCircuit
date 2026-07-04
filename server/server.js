@@ -183,7 +183,7 @@ class GameServer {
             }
             this.ChooseQuestion(roomId);
 
-        }, 30000); // Choose a new question every 30 seconds
+        }, 1000); // Choose a new question every 30 seconds
     }
 }
 
