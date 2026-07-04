@@ -16,6 +16,7 @@ import * as CANNON from 'cannon-es';
 class Racer{
     constructor(world, isVr = false, renderer = null, playerRig = null, questionList = null){
         this.questions = questionList
+        this.score = 0;
         // this.questions = [
         //     {
         //         "question": "What is the fastest Big O time?",
@@ -128,7 +129,6 @@ updateButtonLabels(){
 
     checkAnswer(buttonIndex){
         if (!this.currentQuestion) return;
-
         const isCorrect = buttonIndex === this.correctButtonIndex;
         const feedback = isCorrect ? 'Correct!' : 'Wrong!';
         this.updateScreen(this.currentQuestion.question, feedback);
