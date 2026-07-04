@@ -119,6 +119,14 @@ class MainScene{
                 console.log(`Received movement update for player ${id}: `, movement);
             });
 
+            this.socket.on('newQuestion', (question) => {
+                console.log("Received new question: ", question);
+                
+                vrLog("Received new question: " + JSON.stringify(question));
+                this.currentQuestion = question;
+                this.racer.setQuestion(question);
+            });
+
             setInterval(() => {
                 if (Game.racer) {
                     const position = {

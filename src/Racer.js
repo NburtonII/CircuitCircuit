@@ -94,24 +94,13 @@ class Racer{
 
    
 }
-
-loadRandomQuestions(){
-    this.currentQuestion = this.questions[Math.floor(Math.random()*this.questions.length)];
-    const allAnswers = [this.currentQuestion.answer, this.currentQuestion.wrongAnswer];
-    console.log("ChoosingQUestion")
-    //Shuffle the answers
-    for(let i = allAnswers.length - 1; i > 0; i--){
-        const j = Math.floor(Math.random() * (i + 1));
-        [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
+    setQuestion(question){
+        this.currentQuestion = question;
+        this.currentAnswer = question.answer;
+        const allAnswers = [this.currentAnswer, question.wrongAnswer];
+        this.updateScreen(this.currentQuestion.question, '');
+        this.updateButtonLabels();
     }
-
-    this.buttonAnswers = allAnswers;
-
-    this.correctButtonIndex = allAnswers.indexOf(this.currentQuestion.answer);
-
-    this.updateScreen(this.currentQuestion.question, '');
-    this.updateButtonLabels();
-}
 
 updateButtonLabels(){
     if (!this.buttons || !this.buttonAnswers) return;
@@ -143,7 +132,6 @@ updateButtonLabels(){
         const isCorrect = buttonIndex === this.correctButtonIndex;
         const feedback = isCorrect ? 'Correct!' : 'Wrong!';
         this.updateScreen(this.currentQuestion.question, feedback);
-        setTimeout(() => this.loadRandomQuestions(), 3000);
     }
     buildVRControllers(data){
         let geometry, material;

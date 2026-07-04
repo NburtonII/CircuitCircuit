@@ -7,6 +7,8 @@ class player {
         this.name = name;
         this.movement = movement; //This will be an object containing the player's movement data, such as position, velocity, etc.
         this.roomId = roomid; //The room the player is currently in
+        this.score = 0; //The player's score
+        this.teacher = false; //Whether the player is a teacher or not
     }
 }
 
@@ -32,6 +34,10 @@ class GameServer {
 
         this.app.get('/', (req, res) =>{
             res.send('Game server is running')
+            this.loadQuestions();
+            console.log("Questions loaded: ", JSON.stringify(this.questions));
+            console.log("Questions loaded: ", JSON.stringify(this.questions));
+            res.send(JSON.stringify(this.questions));
         })
         this.app.use(this.express.static(__dirname + '/public'));
 
@@ -164,9 +170,47 @@ class GameServer {
     createRoom(roomId){
         this.rooms[roomId] = {
             players: [],
-            state: null
+            state: null,
+            quiz: null
         };
+        loadQuestions(null, roomId);
+        setInterval(() => {
+            this.ChooseQuestion(roomId);
+            
+        }, 30000); // Choose a new question every 30 seconds
     }
+async loadQuestions(questionList = null, roomId = null){
+    console.log("Loading questions...");
+    fetch("https://cdn.jsdelivr.net/gh/NburtonII/CircuitCircuit@latest/questions.json")
+    .then(response => {
+        if(!response.ok){
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    }).then(data => {
+        let questions = data;
+        console.log("Questions loaded: ", JSON.stringify(questions));
+    }).catch(error => {
+        console.error("Error loading questions: ", error); 
+
+    });
+
+    this.rooms[roomId].quiz = {
+        questions: questions,
+        currentQuestionIndex: 0
+    };
 }
 
+    ChooseQuestion(roomId){
+        const currentQuestion = this.rooms[roomId].quiz.questions[Math.floor(Math.random()*this.rooms[roomId].quiz.questions.length)];
+        const allAnswers = [currentQuestion.answer, currentQuestion.wrongAnswer];
+        console.log("ChoosingQUestion")
+        //Shuffle the answers
+        for(let i = allAnswers.length - 1; i > 0; i--){
+            const j = Math.floor(Math.random() * (i + 1));
+            [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
+        }
+        this.io.to(roomId).emit('newQuestion', currentQuestion);
+        console.log("New question sent to room: ", roomId, " Question: ", currentQuestion);
+}}
 const server = new GameServer();
