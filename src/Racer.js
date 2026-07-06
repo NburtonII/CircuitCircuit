@@ -95,12 +95,12 @@ class Racer{
     else {
             this.addVRControllers(this.renderer);
     }
-    const blankQuestion = {
+    this.blankQuestion = {
         question: "Welcome to the game!",
         answer: "Get Ready!",
         wrongAnswer: "Good Luck!"
     };
-    this.setQuestion(blankQuestion)
+    // this.setQuestion(blankQuestion)
    
 }
     setQuestion(question){
@@ -310,6 +310,8 @@ updateButtonLabels(){
             this.screenAnchor.add(btn);
             this.buttons.push(btn);
         });
+
+        this.setQuestion(this.blankQuestion)
     }
 
     updateScreen(question, feedback){
