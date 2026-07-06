@@ -14,7 +14,7 @@ import * as CANNON from 'cannon-es';
 //import { calcRationalCurveDerivatives } from 'THREE/examples/jsm/curves/NURBSUtils.js';
 ///This class is responsible for creating the player's car, handling input, and managing the quiz interface. It interacts with the physics world to move the car and uses THREE.js to render the car and UI elements. The quiz questions are stored in an array and can be expanded or loaded from an external source. The class also handles VR controller input for steering and answering quiz questions.
 class Racer{
-    constructor(world, isVr = false, renderer = null, playerRig = null, questionList = null){
+    constructor(world, isVr = false, renderer = null, playerRig = null, questionList = null, Socket = null){
         this.questions = questionList
         this.score = 0;
         // this.questions = [
@@ -29,13 +29,16 @@ class Racer{
         //         "wrongAnswers": ["Shell sort"]
         //     }
         // ]
-        
+        this.socket = Socket;
         this.playerRig = playerRig;
 
         //Racer Properties    
         this.speed = 0;
         this.acceleration = 800;
-    
+        
+        //Scoring Properties
+        this.Points = 0;
+
         //going to have to implement a max acceleration speed
         this.maxSpeed = 10000;
         this.maxReverseSpeed = -5000;
@@ -92,7 +95,12 @@ class Racer{
     else {
             this.addVRControllers(this.renderer);
     }
-
+    const blankQuestion = {
+        question: "Welcome to the game!",
+        answer: "Get Ready!",
+        wrongAnswer: "Good Luck!"
+    };
+    this.setQuestion(blankQuestion)
    
 }
     setQuestion(question){
@@ -139,6 +147,10 @@ updateButtonLabels(){
         const isCorrect = buttonIndex === this.correctButtonIndex;
         const feedback = isCorrect ? 'Correct!' : 'Wrong!';
         this.updateScreen(this.currentQuestion.question, feedback);
+        if (isCorrect) {
+            this.Points += 10;
+            this.socket.emit('scoreUpdate', { score: this.Points });
+        }
     }
     buildVRControllers(data){
         let geometry, material;

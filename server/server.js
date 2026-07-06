@@ -87,6 +87,14 @@ class GameServer {
    //             console.log('Current room state: ', JSON.stringify(this.rooms[room]));
             });
 
+            socket.on('scoreUpdate', (scoreData) => {
+                const player = Object.values(this.rooms).flatMap(room => room.players).find(player => player.id === socket.id);
+                const previousScore = player ? player.score : null;
+                if (player && previousScore !== scoreData.score) {
+                    player.score = scoreData.score;
+                }
+            });
+
             socket.on('disconnect', () => {
                 console.log('Client disconnected: ', socket.id);
                 const playerIndex = Object.values(this.rooms).findIndex(room => room.players.some(player => player.id === socket.id));
@@ -183,7 +191,7 @@ class GameServer {
             }
             this.ChooseQuestion(roomId);
 
-        }, 1000); // Choose a new question every 30 seconds
+        }, 30000); // Choose a new question every 30 seconds
     }
 }
 

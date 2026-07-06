@@ -245,7 +245,7 @@ class MainScene{
 
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
-        this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions);
+        this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions, this.socket);
         this.scene.add(this.racer.group)
     }
 
@@ -291,7 +291,11 @@ class MainScene{
             'pz.jpg', 'nz.jpg'
         ])}
 
-
+    // sendScore(){
+    //     if(!this.racer) return;
+    //     const score = this.racer.getScore();
+    //     this.socket.emit('scoreUpdate', {score: score});
+    // }
     render(dt){
         if (!this.racer) return;
         const fixedDt = Math.min(dt,0.05);
@@ -299,6 +303,7 @@ class MainScene{
         this.world.step(1/60,fixedDt);
         this.racer.update(fixedDt, this.renderer);
         this.updateOtherPlayer();
+        // this.sendScore();
         this.renderer.render(this.scene, this.racer.PlayerCamera)
 
     }
