@@ -245,7 +245,7 @@ class MainScene{
 
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
-        this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions, this.socket);
+        this.racer = new Racer(this.world,false, this.renderer, this.playerRig, this.questions, this.socket);
         this.scene.add(this.racer.group)
     }
 
@@ -300,9 +300,7 @@ class MainScene{
         if (!this.racer) return;
 
         if (this.renderer.xr.isPresenting) {
-            this.racer.camPos = new THREE.Vector3(-0.5, 1.2, 0.5);
-        } else{
-            this.racer.camPos = new THREE.Vector3(-0.5, 0.03, 0.2);
+            this.racer.vrRacer = true;
         }
         const fixedDt = Math.min(dt,0.05);
 

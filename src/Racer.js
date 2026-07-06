@@ -73,9 +73,9 @@ class Racer{
         this.playerRig.add(this.handAnchors)
     
         this.camHolder.add(this.PlayerCamera);
-        const testvec = new THREE.Vector3(-0.5,1.2,0.5)
-        const HeadsetVec = new THREE.Vector3(-0.5,0.03,0.2);
-        this.camPos = testvec.clone();
+        this.testvec = new THREE.Vector3(-0.5,1.2,0.5)
+        this.HeadsetVec = new THREE.Vector3(-0.5,0.03,0.2);
+        this.camPos = this.testvec.clone();
         
         this.camHolder.position.copy(this.camPos)
         this.handAnchors.position.copy(this.camPos)
@@ -631,6 +631,10 @@ updateButtonLabels(){
         if (this.vrRacer) {
             this.updateVRInput(renderer);
             this.UpdateSteeringWheel();
+            this.camPos = this.HeadsetVec.clone();
+        }
+        else {
+            this.camPos = this.testvec.clone();
         }
         let engineForce = 0;
         let Cumulativeaccel = this.acceleration;
@@ -672,7 +676,6 @@ updateButtonLabels(){
         const chassisBody = this.Car.chassisBody;
         this.group.position.copy(chassisBody.position);
         this.group.quaternion.copy(chassisBody.quaternion);
-
     }
 
 };
