@@ -298,6 +298,12 @@ class MainScene{
     // }
     render(dt){
         if (!this.racer) return;
+        if (xrSession && this.renderer.xr.isPresenting) {
+            this.racer.camPos = new THREE.Vector3(-0.5,1.2,0.5); 
+        }
+        else{
+            this.racer.camPos = new THREE.Vector3(-0.5,0.03,0.2);
+        }
         const fixedDt = Math.min(dt,0.05);
 
         this.world.step(1/60,fixedDt);
