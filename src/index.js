@@ -245,7 +245,7 @@ class MainScene{
 
         console.log("Loaded Questions: ", this.questions);
         this.RaceTrack = new RaceTrack(this.scene, this.world);
-        this.racer = new Racer(this.world,false, this.renderer, this.playerRig, this.questions, this.socket);
+        this.racer = new Racer(this.world,this.isVRSupported, this.renderer, this.playerRig, this.questions, this.socket);
         this.scene.add(this.racer.group)
     }
 

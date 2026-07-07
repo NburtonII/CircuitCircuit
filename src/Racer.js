@@ -628,11 +628,8 @@ updateButtonLabels(){
         if (this.vrRacer) {
             this.updateVRInput(renderer);
             this.UpdateSteeringWheel();
-            this.camPos = this.HeadsetVec.clone();
         }
-        else {
-            this.camPos = this.testvec.clone();
-        }
+
         let engineForce = 0;
         let Cumulativeaccel = this.acceleration;
         if (this.keys.forward) {
