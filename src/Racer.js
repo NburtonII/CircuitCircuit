@@ -148,6 +148,7 @@ updateButtonLabels(){
         if (isCorrect) {
             this.Points += 10;
             this.socket.emit('scoreUpdate', { score: this.Points });
+            vrLog(`Score Updated: ${this.Points}`);
         }
     }
     buildVRControllers(data){

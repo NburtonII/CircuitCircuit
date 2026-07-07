@@ -73,8 +73,7 @@ class MainScene{
         this.scene.add(sun);
         this.loadSkybox();
 
-        //Setting the environment and loading assets
-        this.init();
+
 
         //server connection and updates
         this.room = null;
@@ -149,7 +148,8 @@ class MainScene{
 
             }, updateInterval)
         });
-
+        //Setting the environment and loading assets
+        this.init();
         this.debugPanel = document.createElement('div');
         this.debugPanel.style.cssText = `
             position: fixed;
@@ -283,6 +283,7 @@ class MainScene{
     // }
 
     loadSkybox(){
+        //nneds adjusting to work with the CDNS
         this.scene.background = new THREE.CubeTextureLoader()
         .setPath('Models/Skybox/')
         .load([
