@@ -75,7 +75,7 @@ class Racer{
         this.camHolder.add(this.PlayerCamera);
         this.testvec = new THREE.Vector3(-0.5,1.2,0.5)
         this.HeadsetVec = new THREE.Vector3(-0.5,0.03,0.2);
-        this.camPos = this.headsetVec.clone();
+        this.camPos = this.HeadsetVec.clone();
         
         this.camHolder.position.copy(this.camPos)
         this.handAnchors.position.copy(this.camPos)
@@ -100,8 +100,6 @@ class Racer{
         answer: "Get Ready!",
         wrongAnswer: "Good Luck!"
     };
-    // this.setQuestion(blankQuestion)
-   
 }
     setQuestion(question){
         this.currentQuestion = question;
@@ -310,8 +308,7 @@ updateButtonLabels(){
             this.screenAnchor.add(btn);
             this.buttons.push(btn);
         });
-
-        this.setQuestion(this.blankQuestion)
+        //this.setQuestion(this.blankQuestion)
     }
 
     updateScreen(question, feedback){
