@@ -93,6 +93,8 @@ class GameServer {
                 if (player && previousScore !== scoreData.score) {
                     player.score = scoreData.score;
                 }
+                console.log(`Score updated for player ${player.name} in room ${player.roomId}: ${previousScore} -> ${scoreData.score}`);
+
             });
 
             socket.on('disconnect', () => {
@@ -157,6 +159,9 @@ class GameServer {
                 server.UpdateRoomState(roomId, state);
                 server.io.to(roomId).emit('roomStateUpdate', state);
                 // console.log(`Emitted roomStateUpdate for room ${roomId}, State: `, JSON.stringify(state));
+                for (const player of room.players) {
+                    console.log(`Player ${player.name} in room ${roomId} has score: ${player.score}`);
+                }
         });
     }, this.updateInterval);
     }

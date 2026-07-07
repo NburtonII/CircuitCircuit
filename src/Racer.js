@@ -75,7 +75,7 @@ class Racer{
         this.camHolder.add(this.PlayerCamera);
         this.testvec = new THREE.Vector3(-0.5,1.2,0.5)
         this.HeadsetVec = new THREE.Vector3(-0.5,0.03,0.2);
-        this.camPos = this.testvec.clone();
+        this.camPos = this.headsetVec.clone();
         
         this.camHolder.position.copy(this.camPos)
         this.handAnchors.position.copy(this.camPos)

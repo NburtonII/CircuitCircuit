@@ -298,12 +298,10 @@ class MainScene{
     // }
     render(dt){
         if (!this.racer) return;
-
         if (this.renderer.xr.isPresenting) {
             this.racer.vrRacer = true;
         }
         const fixedDt = Math.min(dt,0.05);
-
         this.world.step(1/60,fixedDt);
         this.racer.update(fixedDt, this.renderer);
         this.updateOtherPlayer();
