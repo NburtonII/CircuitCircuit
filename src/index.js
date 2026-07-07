@@ -83,7 +83,11 @@ class MainScene{
         this.socket = io(this.tunnel,{
             transports: ['websocket', 'polling']
         });
-        const updateInterval = 1000 / 60; // 60 updates per second
+        const updateInterval = 1000 / 60; // 60 updates per second        
+        
+        //Intialize the game
+        this.init();
+        
         this.socket.on('connect', () => {
             console.log('Connected to server with id: ', this.socket.id);
             this.username = document.getElementById('username').value || "Player1";
@@ -149,7 +153,7 @@ class MainScene{
             }, updateInterval)
         });
         //Setting the environment and loading assets
-        this.init();
+
         this.debugPanel = document.createElement('div');
         this.debugPanel.style.cssText = `
             position: fixed;
